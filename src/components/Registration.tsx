@@ -96,8 +96,8 @@ export default function Registration() {
         timestamp: timestamp
       };
 
-      // Submit to Google Sheets if endpoint is configured
-      if (GOOGLE_SHEET_ENDPOINT && GOOGLE_SHEET_ENDPOINT.includes('script.google.com')) {
+      // Submit to Google Sheets
+      if (GOOGLE_SHEET_ENDPOINT) {
         try {
           await fetch(GOOGLE_SHEET_ENDPOINT, {
             method: 'POST',
@@ -105,7 +105,7 @@ export default function Registration() {
             body: JSON.stringify(payload)
           });
         } catch (fetchError) {
-          console.error('Fetch error:', fetchError);
+          console.warn('Fetch warning:', fetchError);
           // Continue anyway - no-cors requests may appear to fail but data is sent
         }
       }
@@ -115,7 +115,8 @@ export default function Registration() {
         ...prev,
         isSubmitting: false,
         isSuccess: true,
-        data: { fullName: '', email: '', phone: '', interest: '' }
+        data: { fullName: '', email: '', phone: '', interest: '' },
+        errorMessage: ''
       }));
 
       // Reset form after 3 seconds
@@ -123,6 +124,7 @@ export default function Registration() {
         setFormState(prev => ({ ...prev, isSuccess: false }));
       }, 3000);
     } catch (error) {
+      console.error('Form submission error:', error);
       setFormState(prev => ({
         ...prev,
         isSubmitting: false,
@@ -163,7 +165,7 @@ export default function Registration() {
             {/* Full Name */}
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                Full Name <span className="typewriter-gold-inline">*</span>
+                Full Name <span className="required-asterisk">*</span>
               </label>
               <input
                 type="text"
@@ -182,7 +184,7 @@ export default function Registration() {
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                Email Address <span className="typewriter-gold-inline">*</span>
+                Email Address <span className="required-asterisk">*</span>
               </label>
               <input
                 type="email"

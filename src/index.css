@@ -105,6 +105,12 @@ html {
   text-align: center;
 }
 
+/* Required asterisk styling */
+.required-asterisk {
+  color: #D4AF37;
+  margin-left: 2px;
+}
+
 /* Utility classes */
 .text-gold {
   @apply text-[#D4AF37];
