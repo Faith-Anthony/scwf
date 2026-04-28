@@ -16,7 +16,7 @@ export default {
       animation: {
         'fade-in': 'fadeIn 0.8s ease-out',
         'slide-up': 'slideUp 0.8s ease-out',
-        'typewriter': 'typewriter 3s steps(40, end)',
+        'typewriter': 'typewriter 1.5s steps(40, end)',
         'float': 'float 20s ease-in-out infinite',
       },
       keyframes: {
