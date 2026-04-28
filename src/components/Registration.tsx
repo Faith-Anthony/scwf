@@ -68,13 +68,8 @@ export default function Registration() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormState(prev => ({
-      ...prev,
-      data: { ...prev.data, [name]: value },
-      errors: { ...prev.errors, [name]: '' }
-    }));
+  const handleReset = () => {
+    setFormState(prev => ({ ...prev, isSuccess: false }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,11 +113,6 @@ export default function Registration() {
         data: { fullName: '', email: '', phone: '', interest: '' },
         errorMessage: ''
       }));
-
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setFormState(prev => ({ ...prev, isSuccess: false }));
-      }, 3000);
     } catch (error) {
       console.error('Form submission error:', error);
       setFormState(prev => ({
@@ -151,14 +141,23 @@ export default function Registration() {
             <h3 className="text-2xl font-bold text-white mb-4">You're In!</h3>
             <p className="text-gray-300 mb-8">Thank you for joining our community. We can't wait to see you on Sunday.</p>
 
-            <a
-              href={WHATSAPP_GROUP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-green-600 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-700 hover:shadow-lg hover:shadow-green-600/20 transform hover:scale-105"
-            >
-              👉 Join WhatsApp Group
-            </a>
+            <div className="space-y-3">
+              <a
+                href={WHATSAPP_GROUP_LINK}
+                onClick={handleReset}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block w-full px-8 py-4 bg-green-600 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-700 hover:shadow-lg hover:shadow-green-600/20 transform hover:scale-105"
+              >
+                👉 Join WhatsApp Group
+              </a>
+              <button
+                onClick={handleReset}
+                className="w-full px-8 py-3 bg-gold/20 text-gold font-semibold rounded-lg transition-all duration-300 hover:bg-gold/30 border border-gold/50"
+              >
+                Close
+              </button>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6 p-8 rounded-xl border border-gold/20 bg-gradient-to-br from-white/8 via-white/3 to-transparent shadow-lg shadow-gold/5">
