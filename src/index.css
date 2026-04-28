@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  * {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-stone-950 text-white;
+    font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  a {
+    @apply transition-colors duration-300;
+  }
+
+  button {
+    @apply transition-all duration-300;
+  }
+
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards !important;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards !important;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.8s ease-out forwards !important;
+}
+
+/* Typewriter animation for gold text with gradient */
+.typewriter-gold {
+  background: linear-gradient(90deg, #DAA84A 0%, #FFFFFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: typewriter 3s steps(40, end) forwards;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Typewriter animation for inline gold text */
+.typewriter-gold-inline {
+  background: linear-gradient(90deg, #DAA84A 0%, #FFFFFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: typewriter 2s steps(30, end) forwards;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Utility classes */
+.text-gold {
+  @apply text-[#D4AF37];
+}
+
+.bg-gold {
+  @apply bg-[#D4AF37];
+}
+
+.border-gold {
+  @apply border-[#D4AF37];
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0B0B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E5C158;
+}
+
+/* Selection color */
+::selection {
+  background-color: #D4AF37;
+  color: #0B0B0B;
+}
