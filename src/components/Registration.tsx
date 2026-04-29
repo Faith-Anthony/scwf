@@ -46,6 +46,17 @@ export default function Registration() {
     return () => observer.disconnect();
   }, []);
 
+  // Auto-close success modal after 8 seconds
+  useEffect(() => {
+    if (formState.isSuccess) {
+      const timer = setTimeout(() => {
+        setFormState(prev => ({ ...prev, isSuccess: false }));
+      }, 8000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [formState.isSuccess]);
+
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -66,6 +77,15 @@ export default function Registration() {
 
     setFormState(prev => ({ ...prev, errors: newErrors }));
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormState(prev => ({
+      ...prev,
+      data: { ...prev.data, [name]: value },
+      errors: { ...prev.errors, [name]: '' }
+    }));
   };
 
   const handleReset = () => {
@@ -144,7 +164,6 @@ export default function Registration() {
             <div className="space-y-3">
               <a
                 href={WHATSAPP_GROUP_LINK}
-                onClick={handleReset}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block w-full px-8 py-4 bg-green-600 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-700 hover:shadow-lg hover:shadow-green-600/20 transform hover:scale-105"
