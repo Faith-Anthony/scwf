@@ -27,15 +27,11 @@ export default function Footer() {
 
       <div ref={containerRef} className="max-w-6xl mx-auto text-center opacity-0 relative z-10 space-y-4">
         <p className="text-2xl md:text-3xl font-semibold text-white">
-          A safe place for <span className="typewriter-gold-inline">real conversations</span>
-        </p>
-        
-        <p className="typewriter-gold-inline text-lg font-medium">
-          2nd & Last Sundays
+          A safe place for real conversation
         </p>
 
         <p className="text-gray-400 text-sm">
-          © 2026 SCWF. All rights reserved.
+          © SCWF 2026. All Rights Reserved.
         </p>
       </div>
     </footer>
