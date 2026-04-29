@@ -114,15 +114,26 @@ export default function Registration() {
       // Submit to Google Sheets
       if (GOOGLE_SHEET_ENDPOINT) {
         try {
-          await fetch(GOOGLE_SHEET_ENDPOINT, {
+          const response = await fetch(GOOGLE_SHEET_ENDPOINT, {
             method: 'POST',
-            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify(payload)
           });
+
+          // Log response for debugging
+          console.log('Google Sheets submission status:', response.status);
+          
+          if (!response.ok) {
+            console.error('Submission failed:', response.status, response.statusText);
+          }
         } catch (fetchError) {
-          console.warn('Fetch warning:', fetchError);
-          // Continue anyway - no-cors requests may appear to fail but data is sent
+          console.error('Fetch error:', fetchError);
+          // Continue anyway - data may still have been sent
         }
+      } else {
+        console.warn('Google Sheets endpoint not configured');
       }
 
       // Mark as successful submission
