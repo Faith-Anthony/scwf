@@ -170,7 +170,7 @@ export default function Registration() {
           <div className="text-center py-12 px-8 rounded-xl border border-gold/50 bg-gradient-to-br from-gold/20 via-gold/5 to-transparent animate-fade-in shadow-lg shadow-gold/10">
             <div className="text-6xl mb-4">🤍</div>
             <h3 className="text-2xl font-bold text-white mb-4">You're In!</h3>
-            <p className="text-gray-300 mb-8">Thank you for joining our community. We can't wait to see you on Sunday.</p>
+            <p className="text-gray-300 mb-8">Thank you for joining our community. We can't wait to welcome you.</p>
 
             <div className="space-y-3">
               <a
@@ -179,7 +179,7 @@ export default function Registration() {
                 rel="noopener noreferrer"
                 className="inline-block w-full px-8 py-4 bg-green-600 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-green-700 hover:shadow-lg hover:shadow-green-600/20 transform hover:scale-105"
               >
-                👉 Join WhatsApp Group
+                 Join WhatsApp Group
               </a>
               <button
                 onClick={handleReset}

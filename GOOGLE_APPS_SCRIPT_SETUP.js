@@ -13,7 +13,7 @@
 // 9. Copy the deployment URL
 // 10. Paste the URL in your .env.local file as VITE_GOOGLE_SHEET_ENDPOINT
 
-const SHEET_ID = 'YOUR_SHEET_ID_HERE'; // Replace with your Google Sheet ID
+const SHEET_ID = '16RuxdmFnQ_CI1OAYl_e_ZnLyS5Fm6y22pJs_VHC6jVY'; // Replace with your Google Sheet ID
 const SHEET_NAME = 'Form Submissions'; // Sheet tab name (will be created if doesn't exist)
 
 function doPost(e) {
