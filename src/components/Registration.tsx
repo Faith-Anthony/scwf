@@ -111,41 +111,76 @@ export default function Registration() {
         timestamp: timestamp
       };
 
-      // Submit to Google Sheets
-      if (GOOGLE_SHEET_ENDPOINT) {
-        try {
-          const response = await fetch(GOOGLE_SHEET_ENDPOINT, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload)
-          });
+      console.log('📤 Submitting form with data:', payload);
 
-          // Log response for debugging
-          console.log('Google Sheets submission status:', response.status);
-          
-          if (!response.ok) {
-            console.error('Submission failed:', response.status, response.statusText);
-          }
-        } catch (fetchError) {
-          console.error('Fetch error:', fetchError);
-          // Continue anyway - data may still have been sent
-        }
-      } else {
-        console.warn('Google Sheets endpoint not configured');
+      let submissionSuccess = false;
+
+      // Submit to Google Sheets
+      if (!GOOGLE_SHEET_ENDPOINT) {
+        console.warn('⚠️ Google Sheets endpoint not configured');
+        console.warn('Please set VITE_GOOGLE_SHEET_ENDPOINT in .env.local');
+        setFormState(prev => ({
+          ...prev,
+          isSubmitting: false,
+          errorMessage: 'Form endpoint is not configured. Please contact support.'
+        }));
+        return;
       }
 
-      // Mark as successful submission
-      setFormState(prev => ({
-        ...prev,
-        isSubmitting: false,
-        isSuccess: true,
-        data: { fullName: '', email: '', phone: '', interest: '' },
-        errorMessage: ''
-      }));
+      console.log('📍 Google Sheets endpoint:', GOOGLE_SHEET_ENDPOINT);
+      
+      try {
+        // Create FormData for better compatibility with Google Apps Script
+        const formData = new FormData();
+        formData.append('fullName', payload.fullName);
+        formData.append('email', payload.email);
+        formData.append('phone', payload.phone);
+        formData.append('interest', payload.interest);
+        formData.append('timestamp', payload.timestamp);
+
+        const response = await fetch(GOOGLE_SHEET_ENDPOINT, {
+          method: 'POST',
+          body: formData
+        });
+
+        console.log('✅ Google Sheets response status:', response.status);
+        const responseText = await response.text();
+        console.log('📨 Response:', responseText);
+        
+        if (!response.ok) {
+          console.error('❌ Submission failed:', response.status, response.statusText);
+          setFormState(prev => ({
+            ...prev,
+            isSubmitting: false,
+            errorMessage: `Submission failed: ${response.statusText}. Please try again.`
+          }));
+          return;
+        } else {
+          console.log('✅ Form data sent successfully!');
+          submissionSuccess = true;
+        }
+      } catch (fetchError) {
+        console.error('❌ Fetch error:', fetchError);
+        setFormState(prev => ({
+          ...prev,
+          isSubmitting: false,
+          errorMessage: 'Network error. Please check your connection and try again.'
+        }));
+        return;
+      }
+
+      // Mark as successful submission ONLY if data was saved
+      if (submissionSuccess) {
+        setFormState(prev => ({
+          ...prev,
+          isSubmitting: false,
+          isSuccess: true,
+          data: { fullName: '', email: '', phone: '', interest: '' },
+          errorMessage: ''
+        }));
+      }
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('❌ Form submission error:', error);
       setFormState(prev => ({
         ...prev,
         isSubmitting: false,

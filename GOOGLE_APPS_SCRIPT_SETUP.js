@@ -18,8 +18,16 @@ const SHEET_NAME = 'Form Submissions'; // Sheet tab name (will be created if doe
 
 function doPost(e) {
   try {
-    // Get the request body
-    const data = JSON.parse(e.postData.contents);
+    let data = {};
+    
+    // Handle both JSON and form data
+    if (e.postData && e.postData.type === 'application/json') {
+      data = JSON.parse(e.postData.contents);
+    } else if (e.parameter) {
+      data = e.parameter;
+    } else {
+      throw new Error('No data received');
+    }
 
     // Get or create the sheet
     const ss = SpreadsheetApp.openById(SHEET_ID);
@@ -47,6 +55,9 @@ function doPost(e) {
       data.interest || '',
       data.timestamp || ''
     ]);
+
+    // Log success for debugging
+    Logger.log('Form submitted: ' + data.email);
 
     // Return success response
     return ContentService.createTextOutput(JSON.stringify({
